@@ -1,0 +1,32 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]emoryCaptures/
+[Ss]ysroot/
+# IDE
+.vscode/
+.vs/
+*.csproj
+*.sln
+*.unityproj
+*.pidb
+*.user
+*.userprefs
+# OS
+.DS_Store
+Thumbs.db
+# Crash/Profiler
+*.stacktrace
+*.dmp
+# Addressables/Cache
+[Aa]sset[Bb]undles/
+[Bb]undle[Cc]ache/
+# Rider
+.idea/
+# JetBrains
+*.DotSettings.user
