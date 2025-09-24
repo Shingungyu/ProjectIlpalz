@@ -597,8 +597,55 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6825535132303465684, guid: 4abdc68871a5de7418637786711ac714, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 802439010}
+    - targetCorrespondingSourceObject: {fileID: 6825535132303465684, guid: 4abdc68871a5de7418637786711ac714, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 802439011}
   m_SourcePrefab: {fileID: 100100000, guid: 4abdc68871a5de7418637786711ac714, type: 3}
+--- !u!1 &802439009 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6825535132303465684, guid: 4abdc68871a5de7418637786711ac714, type: 3}
+  m_PrefabInstance: {fileID: 802439008}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &802439010
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802439009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d50d977299840841a19f844963002b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostDelay: 0.1
+  ghost: {fileID: 4860483149428319842, guid: 655f2e564d51c5e44a3e4866b215e455, type: 3}
+  makeGhost: 1
+--- !u!114 &802439011
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802439009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0bb99312066d1664394cf30db912ec7e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isColliding: 0
+  audioSource: {fileID: 0}
+  jumpSound: {fileID: 0}
+  portalKeySound: {fileID: 0}
+  Deathsound: {fileID: 0}
+  dashSpeed: 15
+  dashDuration: 0.2
+  dashCooldown: 1
+  ghostEffect: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -1,35 +1,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
-public class PlayerController : MonoBehaviour
+public class Player_DashController : MonoBehaviour
 {
-    float moveSpeed = 6.0f; // í”Œë ˆì´ì–´ ì´ë™ ì†ë„
-    float jumpForce = 13.5f; // í”Œë ˆì´ì–´ ì í”„ë ¥
-    private int jumpCount = 2; // ì í”„ ì¹´ìš´íŠ¸ ì¶”ì 
+    float moveSpeed = 6.0f; // ÇÃ·¹ÀÌ¾î ÀÌµ¿ ¼Óµµ
+    float jumpForce = 13.5f; // ÇÃ·¹ÀÌ¾î Á¡ÇÁ·Â
+    private int jumpCount = 2; // Á¡ÇÁ Ä«¿îÆ® ÃßÀû
 
-    private bool onGround = true; // í”Œë ˆì´ì–´ ì§€ë©´ ì ‘ì´‰
-    public bool isColliding = false; // ë²½ ì ‘ì´‰ í™•ì¸
+    private bool onGround = true; // ÇÃ·¹ÀÌ¾î Áö¸é Á¢ÃË
+    public bool isColliding = false; // º® Á¢ÃË È®ÀÎ
 
     private Rigidbody2D rigid;
     private Animator anim;
 
-    public AudioSource audioSource; // ì˜¤ë””ì˜¤ ì†ŒìŠ¤
+    public AudioSource audioSource; // ¿Àµğ¿À ¼Ò½º
 
-    public AudioClip jumpSound; //ì í”„ì‚¬ìš´ë“œ
-    public AudioClip portalKeySound; //í¬íƒˆì‚¬ìš´ë“œ
-    public AudioClip Deathsound; //ì£½ìŒì‚¬ìš´ë“œ
+    public AudioClip jumpSound; //Á¡ÇÁ»ç¿îµå
+    public AudioClip portalKeySound; //Æ÷Å»»ç¿îµå
+    public AudioClip Deathsound; //Á×À½»ç¿îµå
     //
 
-    // [SerializeField]ì‚¬ìš©ì´ìœ :C#ìŠ¤í¬ë¦½íŠ¸ê°„ì—ì„œëŠ” ì ‘ê·¼í•˜ì§€ëª»í•˜ë„ë¡ ë§‰ìœ¼ë©°, ì¸ìŠ¤í™í„°ì°½ì— ë„ìš°ê¸° ìœ„í•¨.(ì¦‰ê° ìˆ˜ì •í•˜ê¸°ìœ„í•´)
+    // [SerializeField]»ç¿ëÀÌÀ¯:C#½ºÅ©¸³Æ®°£¿¡¼­´Â Á¢±ÙÇÏÁö¸øÇÏµµ·Ï ¸·À¸¸ç, ÀÎ½ºÆåÅÍÃ¢¿¡ ¶ç¿ì±â À§ÇÔ.(Áï°¢ ¼öÁ¤ÇÏ±âÀ§ÇØ)
 
-    [SerializeField] private float dashSpeed = 15f;    // ëŒ€ì‰¬ ì‹œ ì†ë„
-    [SerializeField] private float dashDuration = 0.2f; // ëŒ€ì‰¬ ì§€ì† ì‹œê°„
-    [SerializeField] private float dashCooldown = 1.0f; // ëŒ€ì‰¬ ì¿¨íƒ€ì„
-    private bool isDashing = false;                     // ëŒ€ì‰¬ ì¤‘ì¸ì§€ í™•ì¸
-    private bool canDash = true;                         // ëŒ€ì‰¬ ê°€ëŠ¥ ì—¬ë¶€
+    [SerializeField] private float dashSpeed = 15f;    // ´ë½¬ ½Ã ¼Óµµ
+    [SerializeField] private float dashDuration = 0.2f; // ´ë½¬ Áö¼Ó ½Ã°£
+    [SerializeField] private float dashCooldown = 1.0f; // ´ë½¬ ÄğÅ¸ÀÓ
+    private bool isDashing = false;                     // ´ë½¬ ÁßÀÎÁö È®ÀÎ
+    private bool canDash = true;                         // ´ë½¬ °¡´É ¿©ºÎ
+
+    [SerializeField] private Ghost ghostEffect;
 
 
     //
@@ -40,54 +41,56 @@ public class PlayerController : MonoBehaviour
         anim = GetComponent<Animator>();
 
         audioSource = gameObject.AddComponent<AudioSource>();
-        audioSource.playOnAwake = false; // ìë™ ì¬ìƒ ë¹„í™œì„±í™”
+        audioSource.playOnAwake = false; // ÀÚµ¿ Àç»ı ºñÈ°¼ºÈ­
 
-        // Resources í´ë”ì—ì„œ GameSounds/Playerjump ì‚¬ìš´ë“œ ë¡œë“œ
+        // Resources Æú´õ¿¡¼­ GameSounds/Playerjump »ç¿îµå ·Îµå
         jumpSound = Resources.Load<AudioClip>("GameSounds/Playerjump");
         portalKeySound = Resources.Load<AudioClip>("GameSounds/Potalkey");
         Deathsound = Resources.Load<AudioClip>("GameSounds/Deathsound");
-        // ê²Œì„ ì‹œì‘ ì‹œ Rigidbody2Dì˜ ì¤‘ë ¥ ì„¤ì •
-        rigid.gravityScale = 4.0f; // ì›í•˜ëŠ” ì¤‘ë ¥ ê°’ìœ¼ë¡œ ì„¤ì •
+        // °ÔÀÓ ½ÃÀÛ ½Ã Rigidbody2DÀÇ Áß·Â ¼³Á¤
+        rigid.gravityScale = 4.0f; // ¿øÇÏ´Â Áß·Â °ªÀ¸·Î ¼³Á¤
     }
 
     void Update()
     {
-        // í”Œë ˆì´ì–´ ì¢Œ,ìš° ì´ë™
-        float moveDirection = Input.GetAxis("Horizontal");  
-      
-        rigid.velocity = new Vector2(moveDirection * moveSpeed, rigid.velocity.y);
+        // ÇÃ·¹ÀÌ¾î ÁÂ,¿ì ÀÌµ¿
+        if (!isDashing)
+        {
+            float moveDirection = Input.GetAxis("Horizontal");
+            rigid.velocity = new Vector2(moveDirection * moveSpeed, rigid.velocity.y);
 
-        // í”Œë ˆì´ì–´ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ ì „í™˜, ê±·ê¸° ì• ë‹ˆë©”ì´ì…˜
-        if (moveDirection > 0)
-        {
-            transform.localScale = new Vector2(1, 1);
-            anim.SetBool("isWalking", true);
-        }
-        else if (moveDirection < 0)
-        {
-            transform.localScale = new Vector2(-1, 1);
-            anim.SetBool("isWalking", true);
-        }
-        else
-        {
-            anim.SetBool("isWalking", false);
+            // ¹Ù¶óº¸´Â ¹æÇâ ÀüÈ¯ & °È±â ¾Ö´Ï¸ŞÀÌ¼Ç
+            if (moveDirection > 0)
+            {
+                transform.localScale = new Vector2(1, 1);
+                anim.SetBool("isWalking", true);
+            }
+            else if (moveDirection < 0)
+            {
+                transform.localScale = new Vector2(-1, 1);
+                anim.SetBool("isWalking", true);
+            }
+            else
+            {
+                anim.SetBool("isWalking", false);
+            }
         }
 
-        // ì§€ë©´ ì ‘ì´‰ ì‹œ, ì í”„ ì¹´ìš´íŠ¸ ì´ˆê¸°í™”
+        // Áö¸é Á¢ÃË ½Ã, Á¡ÇÁ Ä«¿îÆ® ÃÊ±âÈ­
         if (onGround)
         {
             jumpCount = 1;
         }
 
-        // ì í”„ í‚¤ ëˆ„ë¥¼ ì‹œ, ì í”„ ì¹´ìš´íŠ¸ ì¡°ê±´ì— ë”°ë¼ ì í”„ ë°œìƒ
+        // Á¡ÇÁ Å° ´©¸¦ ½Ã, Á¡ÇÁ Ä«¿îÆ® Á¶°Ç¿¡ µû¶ó Á¡ÇÁ ¹ß»ı
         if (Input.GetButtonDown("Jump") && jumpCount > 0)
         {
             jumpCount--;
 
-            // yì¶• ì†ë„ë¥¼ 0ìœ¼ë¡œ ì´ˆê¸°í™”í•˜ì—¬ ì´ì „ ì í”„/í•˜ê°• ì†ë„ë¥¼ ì œê±°
+            // yÃà ¼Óµµ¸¦ 0À¸·Î ÃÊ±âÈ­ÇÏ¿© ÀÌÀü Á¡ÇÁ/ÇÏ°­ ¼Óµµ¸¦ Á¦°Å
             rigid.velocity = new Vector2(rigid.velocity.x, 0);
 
-            // ì í”„ë ¥ì„ ì ìš©
+            // Á¡ÇÁ·ÂÀ» Àû¿ë
             rigid.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
 
             PlayJumpSound();
@@ -99,7 +102,7 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(Dash());
         }
 
-        // ì í”„, ì¶”ë½ ì• ë‹ˆë©”ì´ì…˜ ì—…ë°ì´íŠ¸
+        // Á¡ÇÁ, Ãß¶ô ¾Ö´Ï¸ŞÀÌ¼Ç ¾÷µ¥ÀÌÆ®
         UpdateAnimation();
 
     }
@@ -156,9 +159,9 @@ public class PlayerController : MonoBehaviour
         rigid.velocity = Vector2.zero;
 
         anim.SetTrigger("isDie");
-        rigid.bodyType = RigidbodyType2D.Static; // í”Œë ˆì´ì–´ ìœ„ì¹˜ ê³ ì •
+        rigid.bodyType = RigidbodyType2D.Static; // ÇÃ·¹ÀÌ¾î À§Ä¡ °íÁ¤
 
-        // ì• ë‹ˆë©”ì´ì…˜ì´ ì „í™˜ë  ì‹œê°„ì„ ì ì‹œ ê¸°ë‹¤ë¦½ë‹ˆë‹¤.
+        // ¾Ö´Ï¸ŞÀÌ¼ÇÀÌ ÀüÈ¯µÉ ½Ã°£À» Àá½Ã ±â´Ù¸³´Ï´Ù.
         StartCoroutine(WaitForAnimation());
     }
 
@@ -169,10 +172,10 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator WaitForAnimation()
     {
-        yield return null; // í•œ í”„ë ˆì„ ëŒ€ê¸°
-        yield return new WaitForSeconds(0.12f); // ì•½ê°„ì˜ ì¶”ê°€ ëŒ€ê¸°
+        yield return null; // ÇÑ ÇÁ·¹ÀÓ ´ë±â
+        yield return new WaitForSeconds(0.12f); // ¾à°£ÀÇ Ãß°¡ ´ë±â
 
-        // ì‚¬ë§ ì• ë‹ˆë©”ì´ì…˜ ê¸¸ì´ë¥¼ ê°€ì ¸ì˜µë‹ˆë‹¤.
+        // »ç¸Á ¾Ö´Ï¸ŞÀÌ¼Ç ±æÀÌ¸¦ °¡Á®¿É´Ï´Ù.
         float dieDuration = anim.GetCurrentAnimatorStateInfo(0).length;
         StartCoroutine(RestartScene(dieDuration));
     }
@@ -187,32 +190,39 @@ public class PlayerController : MonoBehaviour
     {
         /*if (collision.gameObject.CompareTag("JumpingBar"))
         {
-            // GoUp(); ìœ„ë¡œ íŠ•ê¹€
-            // jumpForce = 7; ì í”„ë ¥ ë” ê°•í•´ì§
+            // GoUp(); À§·Î Æ¨±è
+            // jumpForce = 7; Á¡ÇÁ·Â ´õ °­ÇØÁü
         }*/
     }
 
-    //ëŒ€ì‰¬ ì½”ë£¨í‹´
+    //´ë½¬ ÄÚ·çÆ¾
     private IEnumerator Dash()
     {
         isDashing = true;
         canDash = false;
 
+        // === ´ë½¬ ½ÃÀÛ ===
         float originalGravity = rigid.gravityScale;
-        rigid.gravityScale = 0f; // ëŒ€ì‰¬ ì¤‘ì—” ì¤‘ë ¥ ì œê±° (ìˆ˜í‰ ì´ë™ë§Œ)
+        rigid.gravityScale = 0f;
 
-        // í˜„ì¬ ì´ë™ë°©í–¥ìœ¼ë¡œ ì´ë™.
-        float dashDirection = transform.localScale.x; // 1 or -1
+        // ¹Ù¶óº¸´Â ¹æÇâÀ¸·Î ´ë½¬
+        float dashDirection = transform.localScale.x;
         rigid.velocity = new Vector2(dashDirection * dashSpeed, 0f);
 
-        // ëŒ€ì‰¬ ì§€ì† ì‹œê°„ ëŒ€ê¸°
+        if (ghostEffect != null) ghostEffect.enabled = true;
+       
+
         yield return new WaitForSeconds(dashDuration);
 
-        // ëŒ€ì‰¬ ì¢…ë£Œ
+        // === ´ë½¬ Á¾·á ===
         rigid.gravityScale = originalGravity;
         isDashing = false;
 
-        // ì¿¨íƒ€ì„ ëŒ€ê¸°
+        // --- °í½ºÆ® ÀÌÆåÆ® ºñÈ°¼ºÈ­ ---
+        if (ghostEffect != null) ghostEffect.enabled = false;
+      
+
+        // ÄğÅ¸ÀÓ ´ë±â
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
     }
@@ -228,12 +238,12 @@ public class PlayerController : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("ClearKey"))
         {
-            Destroy(collision.gameObject); // CleayKey ì•„ì´í…œ ì‚­ì œ
-            PlayPortalKeySound(); // Potalkey ì‚¬ìš´ë“œ ì¬ìƒ
+            Destroy(collision.gameObject); // CleayKey ¾ÆÀÌÅÛ »èÁ¦
+            PlayPortalKeySound(); // Potalkey »ç¿îµå Àç»ı
         }
     }
 
-    //ì í”„ ì‚¬ìš´ë“œ í•¨ìˆ˜
+    //Á¡ÇÁ »ç¿îµå ÇÔ¼ö
 
     private void PlayJumpSound()
     {
@@ -243,7 +253,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //í¬íƒˆ ì‚¬ìš´ë“œ í•¨ìˆ˜.
+    //Æ÷Å» »ç¿îµå ÇÔ¼ö.
     private void PlayPortalKeySound()
     {
         if (portalKeySound != null && audioSource != null)
@@ -252,9 +262,10 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    //ì£½ìŒ ì‚¬ìš´ë“œ í•¨ìˆ˜.
+    //Á×À½ »ç¿îµå ÇÔ¼ö.
 
-    private void PlayerDeathSound() {
+    private void PlayerDeathSound()
+    {
 
         if (Deathsound != null && audioSource != null)
         {
