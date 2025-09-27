@@ -22,7 +22,7 @@ public class Player_DashController : MonoBehaviour
     public AudioClip Deathsound; //죽음사운드
     //
 
-    // [SerializeField]사용이유:C#스크립트간에서는 접근하지못하도록 막으며, 인스펙터창에 띄우기 위함.(즉각 수정하기위해)
+    // [SerializeField]사용이유:C#스크립트간에서는 접근하지못하도록 막으며, 인스펙터창에 띄우기 위함.(인스펙터 창에서 수정하기위해)
 
     [SerializeField] private float dashSpeed = 15f;    // 대쉬 시 속도
     [SerializeField] private float dashDuration = 0.2f; // 대쉬 지속 시간
