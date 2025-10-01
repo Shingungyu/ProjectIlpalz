@@ -22,6 +22,8 @@ public class Ghost : MonoBehaviour
     }
 
 
+    
+
     //일정한 간격으로 호출되는 Update()와는 달리 0.02sec(기본값)마다 호출됨.
     void FixedUpdate()
     {
