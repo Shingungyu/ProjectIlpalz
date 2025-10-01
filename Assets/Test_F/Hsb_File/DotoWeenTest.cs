@@ -5,47 +5,34 @@ using DG.Tweening;
 
 public class DotoWeenTest : MonoBehaviour
 {
-
-    public float moveDistance = 2f; // 오른쪽으로 이동할 거리
-    public float moveTime = 1f;     // 이동하는 데 걸리는 시간
-    public int loopCount = -1;      // 왕복 횟수
+    public float moveDistance = 2f;
+    public float moveTime = 1f;
+    public int loopCount = -1;
 
     private Animator anim;
     private SpriteRenderer sprite;
+    private bool goingRight = true;
 
     private void Awake()
     {
         anim = GetComponent<Animator>();
         sprite = GetComponent<SpriteRenderer>();
-
-       
     }
 
     void Start()
     {
         float startX = transform.position.x;
 
-        transform.DOMoveX(startX + moveDistance, moveTime)
-            .SetLoops(loopCount, LoopType.Yoyo) // 왕복 loopCount번 반복
-            .SetEase(Ease.Linear)
-            .OnStart(() =>
-            {
-                anim.SetBool("isWalking", true); // 시작할 때 걷기 모션 켜기
-            })
-            .OnUpdate(() =>
-            {
-                // 방향 판정 (현재 x - 시작 x)
-                float dir = transform.position.x - startX;
+        anim.SetBool("isWalking", true); // 걷기 모션 켜기
 
-                if (dir > 0.01f) // 오른쪽 이동
-                    sprite.flipX = false;
-                else if (dir < -0.01f) // 왼쪽 이동
-                    sprite.flipX = true;
-                
-            })
-            .OnComplete(() =>
+        transform.DOMoveX(startX + moveDistance, moveTime)
+            .SetLoops(loopCount, LoopType.Yoyo)
+            .SetEase(Ease.Linear)
+            .OnStepComplete(() =>
             {
-                anim.SetBool("isWalking", false); // 끝나면 Idle로 복귀
+                // Yoyo에서 한 사이클(오른쪽 → 왼쪽) 끝날 때마다 방향 전환
+                goingRight = !goingRight;
+                sprite.flipX = !goingRight; // 오른쪽일 때 false, 왼쪽일 때 true
             });
     }
 
