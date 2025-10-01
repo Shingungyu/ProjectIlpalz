@@ -448,7 +448,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6825535132303465684, guid: 4abdc68871a5de7418637786711ac714, type: 3}
       propertyPath: m_Name
-      value: Player (1)
+      value: 'TestCharacter '
       objectReference: {fileID: 0}
     - target: {fileID: 7173616586277774026, guid: 4abdc68871a5de7418637786711ac714, type: 3}
       propertyPath: m_Controller

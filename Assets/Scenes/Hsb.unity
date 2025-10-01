@@ -824,7 +824,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveDistance: 4
   moveTime: 1
-  loopCount: 3
+  loopCount: -1
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
