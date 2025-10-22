@@ -103,6 +103,12 @@ public class Player_DashController : MonoBehaviour
             StartCoroutine(Dash());
         }
 
+        if (Input.GetKeyDown(KeyCode.X))
+
+        {
+            anim.SetTrigger("isAttack");
+        }
+
         // 점프, 추락 애니메이션 업데이트
         UpdateAnimation();
 
