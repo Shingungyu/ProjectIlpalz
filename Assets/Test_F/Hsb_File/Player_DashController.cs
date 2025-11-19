@@ -22,7 +22,7 @@ public class Player_DashController : MonoBehaviour
     public AudioClip portalKeySound; //포탈사운드
     public AudioClip Deathsound; //죽음사운드
 
-    bool isAttacking = false;
+   
     //
 
     // [SerializeField]사용이유:C#스크립트간에서는 접근하지못하도록 막으며, 인스펙터창에 띄우기 위함.(인스펙터 창에서 수정하기위해)
@@ -108,13 +108,6 @@ public class Player_DashController : MonoBehaviour
      
 
 
-        if (Input.GetKeyDown(KeyCode.X))
-
-        {
-            anim.SetTrigger("isAttack");
-            
-
-        }
 
         // 점프, 추락 애니메이션 업데이트
         UpdateAnimation();

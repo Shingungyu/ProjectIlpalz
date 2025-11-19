@@ -1,24 +1,39 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerAttack : MonoBehaviour
 {
-    //ÇÃ·¹ÀÌ¾î ¾îÅÃ ½ºÅ©¸³Æ®¸¦ ºĞ¸®ÇÑÀÌÀ¯´Â ¹«±â°¡ ÇÑ Á¾·ù°¡ ¾Æ´Ï±â ¶§¹®.
+    //í”Œë ˆì´ì–´ ì–´íƒ ìŠ¤í¬ë¦½íŠ¸ë¥¼ ë¶„ë¦¬í•œì´ìœ ëŠ” ë¬´ê¸°ê°€ í•œ ì¢…ë¥˜ê°€ ì•„ë‹ˆê¸° ë•Œë¬¸. ì´ ìŠ¤í¬ë¦½íŠ¸ì— ì¹¼, ìŠ¤í‚¬ ë“± ì¶”ê°€í•˜ë©´ ë ë“¯í•¨
 
 
-    public GameObject bulletPrefab;     // ÃÑ¾Ë ÇÁ¸®ÆÕ
-    public Transform firePoint;         // ÃÑ¾ËÀÌ ³ª°¡´Â À§Ä¡
-    public float bulletSpeed = 5f;     // ÃÑ¾Ë ¼Óµµ
+    public GameObject bulletPrefab;   
+    public Transform firePoint;     
+    public float bulletSpeed = 15f;
 
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
     void Update()
     {
+        if (Input.GetMouseButtonDown(0)) 
+        {
+            Shoot();
+            
+        }
+    }
+
+    void Shoot()
+    {
         
+        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mousePos.z = 0; // Zì¶• 0ìœ¼ë¡œ ê³ ì •
+
+        // firePoint  mouse ë°©í–¥ 
+        Vector2 direction = (mousePos - firePoint.position).normalized;
+
+        // ì´ì•Œ ìƒì„±
+        GameObject bullet = Instantiate(bulletPrefab, firePoint.position, Quaternion.identity);
+
+        // ì´ì•Œ Rigidbody2D ì´ìš©í•´ì„œ ì´ë™ ë°©í–¥ ì„¤ì •
+        Rigidbody2D rb = bullet.GetComponent<Rigidbody2D>();
+        rb.velocity = direction * bulletSpeed;
     }
 }
