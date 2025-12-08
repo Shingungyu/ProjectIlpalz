@@ -308,6 +308,10 @@ PrefabInstance:
       propertyPath: m_Material
       value: 
       objectReference: {fileID: 6200000, guid: 4a4ccfc8fe670604bb21f187b9dde5dd, type: 2}
+    - target: {fileID: 6194495220755362243, guid: 4abdc68871a5de7418637786711ac714, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -877677595, guid: 320f7d898e8072549833db8326278ab7, type: 3}
     - target: {fileID: 6825535132303465684, guid: 4abdc68871a5de7418637786711ac714, type: 3}
       propertyPath: m_Name
       value: Player
@@ -315,7 +319,7 @@ PrefabInstance:
     - target: {fileID: 7173616586277774026, guid: 4abdc68871a5de7418637786711ac714, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 9100000, guid: b7aa2557111bc314e91e71d3a63a4a64, type: 2}
+      objectReference: {fileID: 9100000, guid: 6fc1165b39464fd40a0e04424360233a, type: 2}
     - target: {fileID: 8220062040484084148, guid: 4abdc68871a5de7418637786711ac714, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.49
