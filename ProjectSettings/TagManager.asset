@@ -6,6 +6,7 @@ TagManager:
   tags:
   - WallTrigger
   - Dead
+  - Bullet
   layers:
   - Default
   - TransparentFX

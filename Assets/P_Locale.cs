@@ -38,5 +38,15 @@ public class P_Locale : MonoBehaviour
                 .SetDelay(3f)
                 .SetLoops(-1);
     }
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("Bullet"))
+        {
+            
+            Destroy(gameObject);
 
+            
+            Destroy(collision.gameObject);
+        }
+    }
 }
