@@ -46,10 +46,7 @@ public class Player_DashController : MonoBehaviour
         audioSource = gameObject.AddComponent<AudioSource>();
         audioSource.playOnAwake = false; // 자동 재생 비활성화
 
-        // Resources 폴더에서 GameSounds/Playerjump 사운드 로드
-        jumpSound = Resources.Load<AudioClip>("GameSounds/Playerjump");
-        portalKeySound = Resources.Load<AudioClip>("GameSounds/Potalkey");
-        Deathsound = Resources.Load<AudioClip>("GameSounds/Deathsound");
+       
         // 게임 시작 시 Rigidbody2D의 중력 설정
         rigid.gravityScale = 4.0f; // 원하는 중력 값으로 설정
     }
@@ -100,6 +97,7 @@ public class Player_DashController : MonoBehaviour
 
 
         }
+        //대쉬
         if (Input.GetKeyDown(KeyCode.Z) && canDash && !isDashing)
         {
             StartCoroutine(Dash());

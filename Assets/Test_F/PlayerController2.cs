@@ -16,12 +16,17 @@ public class PlayerController2 : MonoBehaviour
     public LayerMask groundLayer;
     bool goJump = false;//점프 개시 플래그
     bool onGround = false;//지면에 서있는 플래그
+
+    private bool isDashing = false;                     // 대쉬 중인지 확인
+    private bool canDash = true;                         // 대쉬 가능 여부
+
+
     [SerializeField] private Transform groundCheck;
     //private지만 인스펙터에 나타나서 드래그앤 드롭으로 연결가능함
 
     // Start is called before the first frame update
     //씬에서 한번만 호출
-    void Start()
+    void Awake()
     {
         //Rigidbody2D 가져오기
         rbody = this.GetComponent<Rigidbody2D>();
@@ -48,6 +53,14 @@ public class PlayerController2 : MonoBehaviour
         {
             Jump();//점프하기!
         }
+
+        ////대쉬
+        //if (Input.GetKeyDown(KeyCode.Z) && canDash && !isDashing)
+        //{
+        //    StartCoroutine(Dash());
+        //}
+
+
     }
     /*FixedUpdate메서드 = 프레임마다 같은간격으로 호출 메서드*/
     private void FixedUpdate()
@@ -82,4 +95,39 @@ public class PlayerController2 : MonoBehaviour
         goJump = true; //점프 플래그 켜기
         Debug.Log("점프 버튼 누름");
     }
+
+
+    //*수정중*
+    //private IEnumerator Dash()
+    ////{
+    ////    isDashing = true;
+    ////    canDash = false;
+
+    ////    // === 대쉬 시작 ===
+    ////    float originalGravity = rigid.gravityScale;
+    ////    rigid.gravityScale = 0f;
+
+    ////    // 바라보는 방향으로 대쉬
+    ////    float dashDirection = transform.localScale.x;
+    ////    rigid.velocity = new Vector2(dashDirection * dashSpeed, 0f);
+
+    ////    if (ghostEffect != null) ghostEffect.enabled = true;
+
+
+    ////    yield return new WaitForSeconds(dashDuration);
+
+    ////    // === 대쉬 종료 ===
+    ////    rigid.gravityScale = originalGravity;
+    ////    isDashing = false;
+
+    ////    // --- 고스트 이펙트 비활성화 ---
+    ////    if (ghostEffect != null) ghostEffect.enabled = false;
+
+
+    ////    // 쿨타임 대기
+    ////    yield return new WaitForSeconds(dashCooldown);
+    ////    canDash = true;
+    ////}
+
+
 }
