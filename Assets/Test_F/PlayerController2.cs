@@ -9,7 +9,7 @@ using UnityEngine;
 public class PlayerController2 : MonoBehaviour
 {
     Rigidbody2D rbody;
-    float axisH = 0.0f; //입력
+    float axisH = 0.0f; //입력==>0.0의 입력?
     public float speed = 3.0f; //이동속도 변수
 
     public float jump = 9.0f;//점프력 변수
