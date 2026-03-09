@@ -59,7 +59,7 @@ public class P_Locale_2 : MonoBehaviour
 
 
     void OnTriggerEnter2D(Collider2D collision)
-    {
+    {s
         if (collision.CompareTag("Bullet"))
         {
             // 
