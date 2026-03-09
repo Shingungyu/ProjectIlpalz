@@ -8,6 +8,8 @@ using UnityEngine;
 /*입력작업 => update메서드, 물리처리 => FixedUpdate메서드*/
 public class PlayerController2 : MonoBehaviour
 {
+
+
     Rigidbody2D rbody;
     float axisH = 0.0f; //입력==>0.0의 입력?
     public float speed = 3.0f; //이동속도 변수
@@ -128,6 +130,17 @@ public class PlayerController2 : MonoBehaviour
     ////    yield return new WaitForSeconds(dashCooldown);
     ////    canDash = true;
     ////}
+    ///
 
 
+    // ** --이하 기존 플레이어 로직-- **
+
+    //float moveSpeed = 6.0f; // 플레이어 이동 속도
+    //float jumpForce = 13.5f; // 플레이어 점프력
+    //private int jumpCount = 2; // 점프 카운트 추적
+
+    //private bool onGround = true; // 플레이어 지면 접촉
+    //public bool isColliding = false; // 벽 접촉 확인
+
+    //private Rigidbody2D rigid;
 }
