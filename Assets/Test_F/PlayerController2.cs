@@ -133,7 +133,7 @@ public class PlayerController2 : MonoBehaviour
     ///
 
 
-    // ** --이하 기존 플레이어 로직-- **
+    // ** --기존 플레이어 로직-- **
 
     //float moveSpeed = 6.0f; // 플레이어 이동 속도
     //float jumpForce = 13.5f; // 플레이어 점프력
